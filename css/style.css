@@ -1,0 +1,546 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
+
+ul {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+/* flex */
+.wrapper {
+  display:flex;
+}
+
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+
+body {
+  background: linear-gradient(rgba(255, 255, 255, 0),rgba(22, 30, 84, 0.63)), url("../img/bkg_landscape.jpg") 15% bottom no-repeat;
+  background-size: cover;
+  /* background: linear-gradient(rgb(22, 30, 84), rgb(38, 81, 167)); */
+
+  overflow: hidden;
+  height: 100vh;
+  flex-wrap:wrap;
+  align-items: center;
+  padding: 5em 0 2em 4em;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  line-height: 1.5rem;
+}
+
+h2 {
+  text-align: center;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  color: rgb(38, 81, 167);
+}
+
+
+#welcome h1,
+#welcome span{
+  color:white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-size: 1.5rem;
+}
+
+#welcome h1::before{
+  content:"";
+  display: block;
+  background: white;
+  height:0.1rem;
+  width: 6rem;
+  margin-bottom: 1em;
+}
+
+#welcome span {
+  font-size: 1.5rem;
+  font-weight: 300;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+
+.button{
+  padding:1rem 2rem;
+  /* background: rgb(38, 81, 167); */
+  background:rgb(22, 30, 84);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: gold;
+}
+
+.button:hover {
+  box-shadow: -0.2em 0.2em rgba(27, 24, 24, 0.418);
+  background:rgba(22, 30, 84, 0.69);
+  cursor: pointer;
+}
+
+nav.wrapper {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+nav > span.button {
+  margin: 1em 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+ol li {
+  margin-bottom: 1rem;
+}
+
+
+.board.wrapper {
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#sequence {
+  transition: all 0.4s ease-in 0.1s; /*purely for the disappearance via .noShow*/
+  justify-content: center;
+ 
+}
+
+.protectedSpace {
+  min-height: 5rem; 
+}
+
+#sequence img {
+  min-width: 5rem;
+  margin: 0;
+  padding: 0.1em;
+}
+
+.choice {
+  /* having 1 img child makes the pokeball bkg grow a little larger. 
+  strange spacing while sequence visible.
+  Also note you are using normalize not reset */
+  margin: 0.5rem;
+  max-height: 5rem;
+  max-width: 5rem;
+  background: url('../img/pokeball.png') no-repeat;
+  background-size: contain;
+  overflow: hidden;
+  transition: all 0.3s ease-in 0.1s; /*still abrupt compared to the pokemon disappearing*/
+}
+
+.choice:hover {
+  filter: brightness(4);
+  cursor: pointer;
+}
+
+.choice img {
+  padding: 0.2rem;
+  width: 95%;
+  filter:brightness(3);
+  transition: all 0.3s ease-in 0.1s;
+}
+
+.choice img:hover {
+  transform: translateY(-1rem); /*turn into animation loop*/
+  filter: brightness(4);
+}
+
+.choice:hover {
+  cursor: pointer;
+}
+
+/* #instructions,
+#credits{
+  width: 65%;
+  padding: 1rem;
+} */
+
+
+/******************************************
+/* ADDITIONAL STYLES - statechanges
+/*******************************************/
+
+.offsetUp{
+  transform: translateY(-50rem);
+}
+
+
+.hide {
+  opacity: 0;
+}
+
+.silhouette {
+  /* do something */
+  filter: contrast(0);
+  filter: brightness(0);
+}
+
+.ballHide {
+  background: none;
+  background-image: none;
+}
+
+.noShow {
+  display: none;
+}
+
+.choice img:not(.hide) {
+  /* support for syntax ..? */
+  opacity:1;
+  filter: brightness(1);
+}
+
+main.wrapper {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+main > * {
+  background: rgba(245, 245, 220, 0.605);
+  padding: 1rem;
+  box-shadow: -0.2em 0.2em 1em rgba(27, 24, 24, 0.418);
+  min-height: 30rem;
+  width: 70%;
+  transition: all 0.4s ease-in 0.1s;
+}
+
+#sequence {
+  flex-wrap:wrap;
+}
+
+main > *:hover{
+  transform: translateY(-0.5rem);
+  background: rgba(245, 245, 220, 0.924);
+}
+
+#welcome.wrapper {
+  flex-direction: column;
+  background: none;
+  box-shadow: none;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  color: white;
+  
+}
+
+
+#welcome:hover{
+  transform: none;
+  background: none;
+}
+
+
+#welcome p {
+  padding: 2em;
+  margin: 0 5rem 5rem 5rem;
+  color: rgba(0, 0, 0, 0.709);
+  background: rgba(245, 245, 220, 0.686);
+  border-radius: 0.6em;
+  border: 2px solid lightgray;
+  box-shadow: 0 -0.2em 1em rgba(27, 24, 24, 0.418);
+  position:fixed;
+  bottom: 3em;
+  transition: all 0.5s ease-out 0.1s;
+}
+
+#mc {
+  max-width: 70%;
+}
+
+#welcome p:hover {
+  transform: translateY(-0.5rem);
+  background: rgba(245, 245, 220, 0.924);
+}
+
+.content.wrapper {
+  justify-content: space-between;
+  width: 100%;
+}
+
+/******************************************
+/* Module arrangements & devices
+
+/* FIX THIS LACK OF MOBILE RESPONSIVENESS FIRST */
+/*******************************************/
+
+header{
+  order:2; /*push to right on desktop*/
+}
+
+main{
+  order:1;
+  width: 70%;
+}
+
+
+#credits.wrapper {
+  order:3;
+  flex-direction: column;
+  text-align: center;
+}
+
+
+@media screen and (min-width:621px) and (max-width:854px) {
+
+  .content.wrapper{
+    flex-direction: column;
+  }
+
+  header {
+    order: 1;
+    justify-content: center;
+  }
+  nav.wrapper {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  nav > span.button {
+    margin: 0 1rem;
+    font-size: smaller;
+    min-height:2rem;
+    transition:all 0.3s ease-out 0;
+  }
+
+  nav > span.button:active {
+    background:beige;
+    color:rgb(38, 81, 167);
+  }
+
+  body {
+    padding: 2rem;
+  }
+
+  main {
+    width: 100%;
+  }
+
+  main.wrapper {
+    align-items: center;
+  }
+
+  #instructions,
+  #gameplay,
+  #credits {
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
+
+  #welcome {
+    flex-wrap:wrap;
+  }
+
+  
+}
+
+@media screen and (min-width:481px) and (max-width:620px){
+
+  .content.wrapper {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  header{
+    width: 100%;
+    align-items: center;
+  }
+
+  #instructions,
+  #credits, 
+  #gameplay {
+    width: 100%;
+  }
+
+  #welcome.wrapper{
+    align-items:center;
+  }
+
+  #welcome p{
+    padding: 2rem;
+  }
+
+  header {
+    order: 1;
+  }
+
+  main {
+    order: 2;
+    width: 80%;
+  }
+
+  nav.wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  nav > span.button {
+    width: 30%;
+    margin: 1rem;
+    font-size: smaller;
+    min-height: 5rem;
+    justify-self:baseline;
+    align-self: center;
+  }
+  body{
+    /* height:fit-content;
+    /* overflow: visible; */
+    /* position: absolute;  */
+    padding:2em;
+    background: linear-gradient(rgba(255, 255, 255, 0),rgba(22, 30, 84, 0.63)), url("../img/bkg_landscape.jpg") 15% bottom no-repeat;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width:480px){
+
+  #sequence img {
+    width: 4rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,
+  body {
+    overflow: scroll; 
+  }
+
+  #sequence {
+    flex-wrap: wrap;
+  }
+
+  .content.wrapper {
+    flex-direction: column;
+  }
+  header {
+    order: 1;
+  }
+
+  main {
+    order: 2;
+    align-items: center;
+    width: 100%;
+  }
+
+  body {
+    padding: 1rem;
+  }
+
+  #gameplay{
+    text-align: center;
+    width: 100%;
+  }
+
+  .choice img {
+    width: 100%;
+    padding: 0.05rem;
+  }
+
+  /* change hover styles to active styles for mobile */
+  .choice:active {
+    filter: brightness(4);
+    cursor: pointer;
+  }
+  
+
+  .choice:hover {
+    filter: none;
+    cursor: none;
+  }
+  
+  .choice img {
+    padding: 0.2rem;
+    width: 95%;
+    transition: all 0.3s ease-in 0.1s;
+  }
+  
+  .choice img:active {
+    transform: translateY(-1rem); /*turn into animation loop*/
+    filter: brightness(4);
+  }
+  
+  .choice img:hover {
+    transform: none;
+    filter: none;
+  }
+
+
+
+
+
+
+
+
+
+
+  #welcome.wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #welcome > section {
+    text-align: left;
+  }
+
+  #welcome img {
+    margin-top: 3em;
+    width: 90%;
+    top: 10em;
+  }
+
+  #welcome p {
+    align-self: center;
+    position: relative;
+    top: 2em;
+    padding: 1em;
+    margin: 0;
+  }
+
+  #welcome h1 {
+    font-size: 2rem;
+    line-height:1em;
+    margin-bottom: 1rem;
+  }
+
+  nav.wrapper {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  nav > span.button {
+    width: 100%;
+    margin-bottom: 0;
+    font-size: larger;
+  }
+
+  main > * {
+    font-size: larger;
+    margin-top: 1rem;
+  }
+
+  #instructions,
+  #credits {
+    width: 100%;
+  }
+
+
+}
+
+/******************************************
+/* TESTS
+/*******************************************/
+

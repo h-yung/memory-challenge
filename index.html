@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+    	<meta name="description" content="This is where your description goes">
+    	<meta name="keywords" content="one, two, three">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+
+		<title>Which Pokemon? &vert; A Memory Game</title>
+
+		<!-- external CSS link -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body class="wrapper">
+
+		<section class="content wrapper">
+			<header>
+				<nav class="wrapper">
+					<span id="showInstruct" class="button">How to Play</span>
+					<span id="newGame" class="button"  type="button" name="button">Start New Game</span>
+					<span id="showCreds" class="button">Credits</span>
+				</nav>
+			</header>
+
+			<main class="wrapper">
+				<section id="welcome" class="wrapper">
+					<p class="noShow"></p>
+					<img src="img/ghastly_evolve.gif" alt="ghastly evolving">
+					<img id="mc" class="noShow" src="img/gamerxbluefire_gengar.png" alt="mc">
+					<section>
+						<h1> Which Pokemon?</h1>
+						<span>A Memory Game</span>
+					</section>
+					
+				</section>
+				<section id="instructions" class="noShow">
+					<h2>How to Play</h2>
+					<ol>
+						<li>Click "Start New Game" to begin a new game. You will be shown a lineup of six Pokemon that you need to choose, in that order, from the board of Pokeballs below.</li>
+						<li>Click on the Pokeballs on the board to reveal the Pokemon.</li>
+						<li>If you choose Pokemon in the wrong order, they will all go back inside the balls and you must start again.</li>
+						<li>Levels increase in difficulty:
+							<ul>
+								<li>Level +: See just a silhouette of the pokemon you must match.</li>
+								<li>Level ++: Sequence of pokemon disappear after 4 seconds.</li>
+								<li>Level +++: Both challenges above are in effect.</li>
+							</ul>
+						</li>
+						<li>Keep playing the game to unlock hints and cheats. Clear your local storage for a new set of 16.</li>
+					</ol>
+				</section>
+				<section id="credits" class="wrapper noShow">
+					<h2>Credits</h2>
+					<p>Uses the free <a href="https://pokeapi.co/">PokeAPI</a>. <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons">Pokemon icons created by Freepik - Flaticon</a>.</p>
+					<p>Thanks for playing!</p>
+				</section>
+				
+				<section id="gameplay" class="noShow">
+					<h2>Match the team lineup</h2>
+					<p id="hintBox" class="hide"></p>
+					<section class="protectedSpace">
+						<section id="sequence" class="wrapper">
+							<!-- where sequence images go -->
+						</section>	
+					</section>				
+					
+					<section id="choose">
+						<h2>Choose your pokemon</h2>
+						<section class="board wrapper">
+							<ul class="wrapper">
+								<li id="a1" class="choice"></li>
+								<li id="a2" class="choice"></li>
+								<li id="a3" class="choice"></li>
+								<li id="a4" class="choice"></li>
+							</ul class="wrapper">
+							<ul class="wrapper">
+								<li id="b1" class="choice"></li>
+								<li id="b2" class="choice"></li>
+								<li id="b3" class="choice"></li>
+								<li id="b4" class="choice"></li>
+							</ul class="wrapper">
+							<ul class="wrapper">
+								<li id="c1" class="choice"></li>
+								<li id="c2" class="choice"></li>
+								<li id="c3" class="choice"></li>
+								<li id="c4" class="choice"></li>
+							</ul class="wrapper">
+							<ul class="wrapper">
+								<li id="d1" class="choice"></li>
+								<li id="d2" class="choice"></li>
+								<li id="d3" class="choice"></li>
+								<li id="d4" class="choice"></li>
+							</ul>
+						</section>
+					</section>
+				</section>
+			</main>
+			
+		</section>
+
+
+		<script type="text/javascript" src="js/main2.js"></script>
+	</body>
+</html>
