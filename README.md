@@ -1,5 +1,5 @@
 # pokemon-memory-game
-Memory game that works a bit like two-factor authentication and uses the PokeAPI. Built with HTML, CSS, and vanilla JS. Feedback welcome!
+Memory game that works a bit like two-factor authentication and uses the PokeAPI. Built with HTML, CSS, and vanilla JS. Feedback and sugestions are welcome.
 
 ##Summary
 Players are given a sequence of six random Pokemon and must click on a grid of 4 x 4 Pokeballs to recreate the same order of Pokemon. Levels of difficulty increase as they go. Local storage is used to preserve number of wins so that players can continue at their last level in a previous browser session.
