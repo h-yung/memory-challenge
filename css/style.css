@@ -115,6 +115,14 @@ ol li {
   justify-content: center;
  
 }
+#sequence > h1 {
+  text-align: center;
+  line-height:1.2em; /*for congrats text replacement*/
+}
+
+#choose {
+  line-height:1.2em; /*for congrats text replacement*/
+}
 
 .protectedSpace {
   min-height: 5rem; 

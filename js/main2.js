@@ -13,7 +13,6 @@ if (localStorage.getItem('isFirstGame')){
     localStorage.setItem('isFirstGame', isFirstGame)
 }
 
-
 const url = 'https://pokeapi.co/api/v2/pokemon/'
 
 let rando16Names = [];
@@ -57,7 +56,6 @@ showCreds.addEventListener('click', function(){
 })
 
 
-
 // *** ON LOAD for first time, do a ONE-TIME intro. 
 // the welcome screen will never be shown again so currently not restored to earlier state. Can someday stand in for loading screen?
 if (isFirstGame === true){
@@ -65,6 +63,8 @@ if (isFirstGame === true){
     isFirstGame = false;
     localStorage.setItem('isFirstGame', isFirstGame)
     isFirstGame = localStorage.getItem('isFirstGame')
+
+    localStorage.setItem('levelsWon', wins) //wins should be 0
 
     // intro talk
     document.querySelector('nav').classList.add('noShow');
@@ -77,10 +77,10 @@ if (isFirstGame === true){
         mc.classList.remove('noShow') //otherwise caught in the img selector above
 
         for (let i=0; i < commentary.length; i++){
-        setTimeout(() => {
-            // rotate through commentary
-            chatWhileLoad.textContent = commentary[i]
-        }, 3000*i);
+            setTimeout(() => {
+                // rotate through commentary
+                chatWhileLoad.textContent = commentary[i]
+            }, 3000*i);
         }
     }, 2500);
 
@@ -91,7 +91,10 @@ if (isFirstGame === true){
     }, 11000);
     
 
-} //else await user input from nav
+} else {
+    wins = +localStorage.getItem('levelsWon') 
+    // then await user input from nav
+}
 
 
 // first create an array of names - rando16Names
@@ -351,10 +354,13 @@ function checkVsGoal(workingList, refList){
             // reset WIP but keep sequence
             resetBoard();
         }, 1000);
-  
-        
-      } else if (workingList.length === refList.length && refList.every((entry, index) => entry === workingList[index])){
+        }  
+    }
+
+    if (workingList.length === refList.length && refList.every((entry, index) => entry === workingList[index])){
         wins = +wins + 1;
+        localStorage.setItem('levelsWon', wins)
+        wins = +localStorage.getItem('levelsWon')
         const congrats = document.createElement('h1')
         congrats.textContent="Well done! You caught them all!"
         document.querySelector('#sequence').replaceChildren(congrats) //wonder if this replicates congrats 6x or just provides 1 bc 1 arg
@@ -365,8 +371,8 @@ function checkVsGoal(workingList, refList){
             document.querySelector('#choose').querySelector('h2').textContent = "Take it to the next Level with a new lineup..."
         }
        
-        // localStorage.setItem('levelsWon', wins)
-      }
+ 
     }
+    
   
-  }
+}
