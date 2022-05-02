@@ -21,3 +21,5 @@ Minor technical issues and questions to continue resolving at a future time invo
 - Cleaning up nested calls in asynchronous function (fetch())
 - Refactor to build as a class
 - shuffle function: unsure why declaring the randomizing index inside the loop throws an initialization error, compared to that construction in the makeLists function
+
+## [Demo](https://h-yung.github.io/pokemon-memory-game/)
