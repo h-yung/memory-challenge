@@ -111,13 +111,12 @@ function makeLists(baseUrl, length, arrNames, arr){
                 arrNames.push(name)
                 if (arrNames.length === length){
                     // only when arrNames has 16 names should you trigger the following loop
-                    // does the rest only work when nesting because fetch is asynchronous??
                     for (const name of arrNames){
                         fetch(baseUrl+name)
                         .then(res => res.json()) // parse response as JSON
                         .then(indivData => {
                             let img = indivData.sprites['front_default']
-                            let newObj = {name, img} //I couldn't set key value to be name but created obj with
+                            let newObj = {name, img} 
                             arr.push(newObj)
                             if (arr.length === length){
                                 // trigger only when there are 16 objects in arr
