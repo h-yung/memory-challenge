@@ -27,8 +27,8 @@ const wip6Names = [];
 
 // parts of contents
 const welcome = document.querySelector('#welcome')
-  let chatWhileLoad = document.querySelector('#welcome').querySelector('p')
-  let mc = document.querySelector('#mc')
+const chatWhileLoad = document.querySelector('#welcome').querySelector('p')
+const mc = document.querySelector('#mc')
   let commentary = ["Welcome! There are more than 898 Pokemon - and that's a lot.", "We caught 16 Pokemon this week, and now we're preparing our team lineup of six.", "So, how well do you remember your Pokemon? Let's find out!"]
 const instructions = document.querySelector('#instructions')
 const credits = document.querySelector('#credits')
@@ -70,9 +70,9 @@ if (isFirstGame === true){
     document.querySelector('nav').classList.add('noShow');
 
     setTimeout(() => {
-        document.querySelector('#welcome').querySelector('section').querySelector('span').classList.add('noShow')
-        document.querySelector('#welcome').querySelector('section').querySelector('h1').classList.add('noShow')
-        document.querySelector('#welcome').querySelector('img').classList.add('noShow')
+        welcome.querySelector('section').querySelector('span').classList.add('noShow')
+        welcome.querySelector('section').querySelector('h1').classList.add('noShow')
+        welcome.querySelector('img').classList.add('noShow')
         chatWhileLoad.classList.remove('noShow')
         mc.classList.remove('noShow') //otherwise caught in the img selector above
 
@@ -205,7 +205,6 @@ function getGoal6(arr, subArr, subNames, length){
         arr.splice(random, 1)
     }
 }
-
 
 
 // this did not work because callstack chaos; also I didn't need it
