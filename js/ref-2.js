@@ -1,4 +1,8 @@
-// Refactoring 2: OOP. Classes after
+// Refactoring 3: OOP, further reducing publicly accessible methods from the object. Classes after
+// review alt: SELECTOR_HERE.addEventListener('click', object.method.bind(object)). Otherwise the original "this" scope is lost by the time the event is fired
+// Would also apply to other contexts where the object method is passed as a callback (not just specifically for an event listener)?
+//use of anon function "wrapper" for the event listener callback: creates a closure which manages to retain the "this" reference
+
 
 const url = 'https://pokeapi.co/api/v2/pokemon/'
 let commentary = ["Welcome! There are more than 898 Pokemon - and that's a lot.", "We caught 16 Pokemon this week, and now we're preparing our team lineup of six.", "So, how well do you remember your Pokemon? Let's find out!"]
@@ -18,7 +22,7 @@ function MemoryGame(baseUrl, commentary){
     this.isFirstGame = true; //starts here unless localstorage says otherwise
 
     // customizable contents upon creation
-    this.commentary = commentary; //an array to cycle through, length of 3 ideally.
+    let initialChat = commentary; //an array to cycle through, length of 3 ideally.
 
     // constants specific to object instance of poke memory game
     const welcome = document.querySelector('#welcome')
@@ -37,30 +41,31 @@ function MemoryGame(baseUrl, commentary){
     this.newGame = document.querySelector('#newGame')
     this.showCreds = document.querySelector('#showCreds')
 
-    this.show = function(showThis){
+    const show = function(showThis){
         // should I prioritize reducing parameters at expense of more lines of code bc of specificity?
         showThis.classList.remove('noShow')
     } 
-    this.noShow = function(hideThis){
+    const noShow = function(hideThis){
         // split out from toggleVisible for clarity
+        // note that this is not the same as hide (and ".hide" changes opacity where ".noShow" changes display value)
         hideThis.classList.add('noShow')
     }
 
     this.showInstructions = function(){
         // specificity adds lines...
 
-        this.show(instructions)
-        this.noShow(credits)
-        this.noShow(gameplay)
-        this.noShow(welcome)
+        show(instructions)
+        noShow(credits)
+        noShow(gameplay)
+        noShow(welcome)
     }
 
     this.showCredits = function(){
         // specificity adds lines...
-        this.show(credits)
-        this.noShow(instructions)
-        this.noShow(gameplay)
-        this.noShow(welcome)
+        show(credits)
+        noShow(instructions)
+        noShow(gameplay)
+        noShow(welcome)
     }
 
     this.checkIfFirst = function(){
@@ -73,37 +78,36 @@ function MemoryGame(baseUrl, commentary){
     this.giveIntro = function(){
         // hardcoded without parameters because it's a onetime with specific pieces shown
         if (this.isFirstGame === true){
-            console.log(`isFirstGame is ${this.isFirstGame}`)
-            this.noShow(nav)
+            noShow(nav)
             setTimeout(() => {
-                this.noShow(welcome.querySelector('section').querySelector('span'))
-                this.noShow(welcome.querySelector('section').querySelector('h1'))
-                this.noShow(welcome.querySelector('img'))
-                this.show(chatWhileLoad)
-                this.show(mc)  //otherwise caught in the img selector above
+                noShow(welcome.querySelector('section').querySelector('span'))
+                noShow(welcome.querySelector('section').querySelector('h1'))
+                noShow(welcome.querySelector('img'))
+                show(chatWhileLoad)
+                show(mc)  //otherwise caught in the img selector above
         
-                for (let i=0; i < this.commentary.length; i++){
+                for (let i=0; i < initialChat.length; i++){
                     setTimeout(() => {
-                        // rotate through commentary
-                        chatWhileLoad.textContent = this.commentary[i]
+                        // rotate through commentary assigned to initialChat
+                        chatWhileLoad.textContent = initialChat[i]
                     }, 3000*i);
                 }
             }, 2500);
         
             setTimeout(() => {
-                this.show(nav);
-                this.noShow(chatWhileLoad);
-                this.noShow(mc);
+                show(nav);
+                noShow(chatWhileLoad);
+                noShow(mc);
             }, 11000);
         }
     }
 
     this.showStartScreen = function(){
         // basically a bunch of callbacks
-        this.show(welcome)
-        this.noShow(credits)
-        this.noShow(gameplay)
-        this.noShow(instructions)
+        show(welcome)
+        noShow(credits)
+        noShow(gameplay)
+        noShow(instructions)
     }
 
     this.setRecords = function(){
@@ -118,7 +122,7 @@ function MemoryGame(baseUrl, commentary){
         localStorage.setItem('isFirstGame', this.isFirstGame); 
     }
 
-    this.makeLists = function(){
+    const makeLists = function(){
         // hardcoding to end the parameters soup
         const baseUrl = url; //references external variable "url"
         fetch(`${baseUrl}?limit=898`) //adding the limit query parameter helped line up the requests that were getting routed to randos before
@@ -139,14 +143,14 @@ function MemoryGame(baseUrl, commentary){
                                 rando16.push(newObj)
                                 if (rando16.length === 16){
                                     // trigger only when there are 16 objects in arr
-                                    this.dump(rando16,`.choice:empty`, true)
-                                    this.getGoal6() //populates goal6 array
-                                    this.dump(goal6,`#sequence`, false, this.wins)// show sequence onscreen
+                                    dump(rando16,`.choice:empty`, true)
+                                    getGoal6() //populates goal6 array
+                                    dump(goal6,`#sequence`, false, this.wins)// show sequence onscreen
                                     // unhide gameplay elements, how that they are populated
-                                    this.show(choose.querySelector('h2'))
-                                    this.show(sequence)
-                                    this.show(board)
-                                    this.increaseDifficulty() //will annul some of the above
+                                    show(choose.querySelector('h2'))
+                                    show(sequence)
+                                    show(board)
+                                    increaseDifficulty() //will annul some of the above
                                 }
                             })
                             .catch(err => {
@@ -162,7 +166,7 @@ function MemoryGame(baseUrl, commentary){
             });
     }
 
-    this.shuffle = function(arr){
+    const shuffle = function(arr){
         let random; //not sure why declaring it inside the loop has an initialization error. compare use of random in makeList
         for (i= arr.length-1; i>=0; i--){
             random = Math.floor(Math.random()*arr.length)
@@ -171,7 +175,7 @@ function MemoryGame(baseUrl, commentary){
         return arr
     }
 
-    this.dump = function(arr, parentElementSelector, hide){
+    const dump = function(arr, parentElementSelector, hide){
         for (const entry of arr){
             const subset = document.createElement('img')
             subset.src = entry.img; //this should be in array as a string by time of assignment but somehow still populates slower than nameArray (offset by 1).
@@ -185,18 +189,18 @@ function MemoryGame(baseUrl, commentary){
         }
     }
 
-    this.increaseDifficulty = function(){
+    const increaseDifficulty = function(){
         if(this.wins > 2){
             const children = Array.from(sequence.children) 
             children.forEach(child => child.classList.add('silhouette')) 
             setTimeout(() => {
-                this.noShow(sequence);
+                noShow(sequence);
             }, 4000)
     
         }else if (this.wins > 1){
             // level 2 penalty
             setTimeout(() => {
-                this.noShow(sequence);
+                noShow(sequence);
             }, 4000)
         }else if (this.wins > 0){
             // level 1 penalty
@@ -205,8 +209,8 @@ function MemoryGame(baseUrl, commentary){
         }
     }
 
-    this.getGoal6 = function(){
-        this.shuffle(rando16) // you don't want them lined up compared to the board order
+    const getGoal6 = function(){
+        shuffle(rando16) // you don't want them lined up compared to the board order
         for (i=0; i < 6; i++){
             let random = Math.floor(Math.random()*rando16.length)
             goal6.push(rando16[random])
@@ -218,15 +222,15 @@ function MemoryGame(baseUrl, commentary){
 
     this.startGame = function(){
         this.resetAll();
-        this.makeLists();
+        makeLists();
         // unhide gameplay
-        this.show(gameplay)
-        this.noShow(instructions)
-        this.noShow(credits)
-        this.noShow(welcome)
+        show(gameplay)
+        noShow(instructions)
+        noShow(credits)
+        noShow(welcome)
     }
 
-    this.hidePoke = function(){
+    const hidePoke = function(){
         // a specific name for a game-instance-specific need
         document.querySelectorAll(`.choice`).forEach(element=> element.firstElementChild?.classList.add('hide'));
         document.querySelectorAll(`.choice`).forEach(element => element.classList.remove('ballHide'));
@@ -235,7 +239,7 @@ function MemoryGame(baseUrl, commentary){
     this.resetBoard = function(){
         //mid-game reset, for sequence error
         this.wip6Names.length = 0;
-        this.hidePoke();
+        hidePoke();
     }
     this.resetAll = function(){
         this.resetBoard();
@@ -254,9 +258,9 @@ function MemoryGame(baseUrl, commentary){
         document.querySelectorAll('.choice').forEach(element => element.replaceChildren())
 
         // hide empty nonactionable elements
-        this.noShow(choose.querySelector('h2'))
-        this.noShow(sequence)
-        this.noShow(board) //don't let it be visible or accessible until things populated
+        noShow(choose.querySelector('h2'))
+        noShow(sequence)
+        noShow(board) //don't let it be visible or accessible until things populated
     }
 
     this.revealPoke = function(event, idOfChoice){
@@ -264,7 +268,7 @@ function MemoryGame(baseUrl, commentary){
         // to further take apart to remove parameters
         this.moves += 1;
   
-        //hint, cheatmode
+        //hint, cheatmode - potentially break out
         if (this.moves > 20 && this.wins > 2){
             let exit = prompt('You are now on cheat mode! Type anything to return to the game.', '')
             if (exit !==""){
@@ -276,7 +280,7 @@ function MemoryGame(baseUrl, commentary){
         
             setTimeout(() => {
                 this.hidePoke()
-            }, 500); 
+            }, 1); 
     
         }else if (this.moves > 10 && localStorage.getItem('levelsWon') > 2){
             // check visual for the following
@@ -299,6 +303,7 @@ function MemoryGame(baseUrl, commentary){
             // there should only be 1 img child anyway
         }
     }
+
     this.recreateGoal = function(event){
         // don't push to wip6Names if it's already clicked and Poke img is viewable. 
         // However, .hide is probably simultaneously removed, so
