@@ -150,7 +150,9 @@ function MemoryGame(baseUrl, commentary){
                                     show(choose.querySelector('h2'))
                                     show(sequence)
                                     show(board)
+                                    console.log('here is how far we got')
                                     increaseDifficulty() //will annul some of the above
+                                    console.log('increase difficulty should have run')
                                 }
                             })
                             .catch(err => {
@@ -190,6 +192,7 @@ function MemoryGame(baseUrl, commentary){
     }
 
     const increaseDifficulty = function(){
+        this.wins = +localStorage.getItem('levelsWon')
         if(this.wins > 2){
             const children = Array.from(sequence.children) 
             children.forEach(child => child.classList.add('silhouette')) 
