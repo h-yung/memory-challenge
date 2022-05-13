@@ -1,5 +1,5 @@
 # Memory Sequencing Game
-Memory test on random sequence reconstruction on increasing scales of difficulty, made more beautiful with the PokeAPI. Players are given a sequence of six random Pokemon and must click on a grid of 4 x 4 to recreate the same order of Pokemon. 
+A test of one's ability to recreate random sequences of six, made more beautiful with the PokeAPI. Players are given a random sequence of six Pokemon and must click on a grid of 4 x 4 (drawn afresh from 898 possible options each game) to recreate the same order of Pokemon. 
 
 ## [Demo](https://h-yung.github.io/pokemon-memory-game/)
 ![sequencing challenge demo](https://i.postimg.cc/pX3CyFQ3/game-pokememory-tablet-2.png)
@@ -20,7 +20,9 @@ First-time visitors enjoy a short intro with a talkative Gengar.
 ## Optimizations
 * 70% rewritten based on OOP principles, especially encapsulation.
 * Cleaned up nested .fetch(), resulting in improved performance (by nearly 60s!) but continued to prioritize readability over absolute DRY-ness of the code.
-Future refactoring will address some minor questions around closure in the current code base.
+Future refactoring to cover:
+* Isolated questions around closure/best practices in the current code base.
+* Next-level difficulty could include a countdown clock and timed interval for attempts (limited tries seems unrealistic). Successful recreation of the sequence could also be more rewarding and made shareable.
 
 ## Lessons learned
 * An alternate approach cached the groups of 16 and 6 in local storage (using stringify and parse to retrieve). This was overkill here but potentially useful for other apps so as to streamline a user's progression (the opposite direction of this project). I may use the local storage caching approach to simplify the user experience for an information-gathering app (temporary storage to aid form prepopulation with data that does not need to be secured, preferences, etc., while still allowing for edits).
