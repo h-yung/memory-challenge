@@ -1,4 +1,4 @@
-# Memory Sequencing Game
+# Memory Sequencing Test
 A test of one's ability to recreate random sequences of six, made more beautiful with the PokeAPI. Players are given a random sequence of six Pokemon and must click on a grid of 4 x 4 (drawn afresh from 898 possible options each game) to recreate the same order of Pokemon. 
 
 ## [Demo](https://h-yung.github.io/pokemon-memory-game/)
