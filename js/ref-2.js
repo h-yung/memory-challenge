@@ -1,16 +1,12 @@
-// Refactoring 3: OOP, further reducing publicly accessible methods from the object. Classes after
-// review alt: SELECTOR_HERE.addEventListener('click', object.method.bind(object)). Otherwise the original "this" scope is lost by the time the event is fired
-// Would also apply to other contexts where the object method is passed as a callback (not just specifically for an event listener)?
-//use of anon function "wrapper" for the event listener callback: creates a closure which manages to retain the "this" reference
-
-
+// 3rd iteration, more encapsulation!
+//keeping baseURL and commentary outside for easier change of obj application
 const url = 'https://pokeapi.co/api/v2/pokemon/'
 let commentary = ["Welcome! There are more than 898 Pokemon - and that's a lot.", "We caught 16 Pokemon this week, and now we're preparing our team lineup of six.", "So, how well do you remember your Pokemon? Let's find out!"]
 
 
 function MemoryGame(baseUrl, commentary){
-    let url = baseUrl; //local-private variable
-    let rando16Names = []; //keeps names and such hidden, cannot be called out
+    let url = baseUrl; 
+    let rando16Names = []; //keeps names and such hidden
     let rando16 = [];
     let goal6 = [];
     let goal6Names = [];
@@ -42,12 +38,12 @@ function MemoryGame(baseUrl, commentary){
     this.showCreds = document.querySelector('#showCreds')
 
     const show = function(showThis){
-        // should I prioritize reducing parameters at expense of more lines of code bc of specificity?
+        // number of parameters vs length of code?
         showThis.classList.remove('noShow')
     } 
     const noShow = function(hideThis){
-        // split out from toggleVisible for clarity
-        // note that this is not the same as hide (and ".hide" changes opacity where ".noShow" changes display value)
+        // have split out a previous "toggleVisible" for clarity
+        // note that hide and noShow differ (and ".hide" changes opacity where ".noShow" changes display value)
         hideThis.classList.add('noShow')
     }
 
@@ -61,7 +57,6 @@ function MemoryGame(baseUrl, commentary){
     }
 
     this.showCredits = function(){
-        // specificity adds lines...
         show(credits)
         noShow(instructions)
         noShow(gameplay)
@@ -76,7 +71,7 @@ function MemoryGame(baseUrl, commentary){
     }
 
     this.giveIntro = function(){
-        // hardcoded without parameters because it's a onetime with specific pieces shown
+        // a onetime with specific pieces shown
         if (this.isFirstGame === true){
             noShow(nav)
             setTimeout(() => {
@@ -88,7 +83,7 @@ function MemoryGame(baseUrl, commentary){
         
                 for (let i=0; i < initialChat.length; i++){
                     setTimeout(() => {
-                        // rotate through commentary assigned to initialChat
+                        // go through commentary assigned to initialChat
                         chatWhileLoad.textContent = initialChat[i]
                     }, 3000*i);
                 }
@@ -103,7 +98,6 @@ function MemoryGame(baseUrl, commentary){
     }
 
     this.showStartScreen = function(){
-        // basically a bunch of callbacks
         show(welcome)
         noShow(credits)
         noShow(gameplay)
@@ -123,9 +117,7 @@ function MemoryGame(baseUrl, commentary){
     }
 
     const makeLists = function(){
-        // hardcoding to end the parameters soup
-        const baseUrl = url; //references external variable "url"
-        fetch(`${baseUrl}?limit=898`) //adding the limit query parameter helped line up the requests that were getting routed to randos before
+        fetch(`${url}?limit=898`) //adding the limit query parameter is a specific need for using this API
             .then(res => res.json()) // parse response as JSON
             .then(data => {
                 for (let i=0; i < 16; i++){
@@ -135,7 +127,7 @@ function MemoryGame(baseUrl, commentary){
                     if (rando16Names.length === 16){
                         // only when arrNames has 16 names should you trigger the following loop
                         for (const name of rando16Names){
-                            fetch(baseUrl+name)
+                            fetch(url+name)
                             .then(res => res.json()) // parse response as JSON
                             .then(indivData => {
                                 let img = indivData.sprites['front_default']
@@ -146,13 +138,11 @@ function MemoryGame(baseUrl, commentary){
                                     dump(rando16,`.choice:empty`, true)
                                     getGoal6() //populates goal6 array
                                     dump(goal6,`#sequence`, false, this.wins)// show sequence onscreen
-                                    // unhide gameplay elements, how that they are populated
+                                    // unhide gameplay elements, which are now populated
                                     show(choose.querySelector('h2'))
                                     show(sequence)
                                     show(board)
-                                    console.log('here is how far we got')
                                     increaseDifficulty() //will annul some of the above
-                                    console.log('increase difficulty should have run')
                                 }
                             })
                             .catch(err => {
@@ -169,7 +159,7 @@ function MemoryGame(baseUrl, commentary){
     }
 
     const shuffle = function(arr){
-        let random; //not sure why declaring it inside the loop has an initialization error. compare use of random in makeList
+        let random; //declaration insite the loop has an initialization error. contrast: use of random in makeList
         for (i= arr.length-1; i>=0; i--){
             random = Math.floor(Math.random()*arr.length)
             [arr[i], arr[random]] = [arr[random], arr[i]]
@@ -180,17 +170,17 @@ function MemoryGame(baseUrl, commentary){
     const dump = function(arr, parentElementSelector, hide){
         for (const entry of arr){
             const subset = document.createElement('img')
-            subset.src = entry.img; //this should be in array as a string by time of assignment but somehow still populates slower than nameArray (offset by 1).
+            subset.src = entry.img; //appears to populate slower than nameArray (offset by 1).
             subset.alt = entry.name; //this will be used later for game logic
-            // querySelector (not querySelectorAll !) should after getting the first match without further specification of "first of node list of .choice:empty elements"...
-            // hide is a boolean - helps keep this bloc reusable for goal6 after dumping 16
+            // querySelector (not querySelectorAll) will find the first match without needing further specification 
+            // hide is a boolean that skeep this bloc reusable for goal6 after dumping 16
             if (hide){
                 subset.classList.add('hide');
             }
             document.querySelector(parentElementSelector).appendChild(subset) 
         }
     }
-
+    // creates challenges based on level
     const increaseDifficulty = function(){
         this.wins = +localStorage.getItem('levelsWon')
         if(this.wins > 2){
@@ -213,12 +203,12 @@ function MemoryGame(baseUrl, commentary){
     }
 
     const getGoal6 = function(){
-        shuffle(rando16) // you don't want them lined up compared to the board order
+        shuffle(rando16) // so that they aren't lined up compared to the board order
         for (i=0; i < 6; i++){
             let random = Math.floor(Math.random()*rando16.length)
             goal6.push(rando16[random])
-            goal6Names.push(rando16[random].name) //making an array of the names for easier comp later
-            // There cannot be than one of a certain Pokemon 
+            goal6Names.push(rando16[random].name) //making an array of the names for validation later
+            // So that there is only one of a certain Pokemon 
             rando16.splice(random, 1)
         }
     }
@@ -248,7 +238,6 @@ function MemoryGame(baseUrl, commentary){
         this.resetBoard();
         rando16.length = 0;
         rando16Names.length = 0;
-        //shuffled the above at dump16 but since that is chained to new call (get16), redundancy built in
         goal6.length = 0;
         goal6Names.length = 0;
         this.moves = 0;
@@ -263,12 +252,11 @@ function MemoryGame(baseUrl, commentary){
         // hide empty nonactionable elements
         noShow(choose.querySelector('h2'))
         noShow(sequence)
-        noShow(board) //don't let it be visible or accessible until things populated
+        noShow(board) //don't let it be visible or accessible until things are populated
     }
 
     this.revealPoke = function(event, idOfChoice){
         // another v specific name for instance-specific gameplay
-        // to further take apart to remove parameters
         this.moves += 1;
   
         //hint, cheatmode - potentially break out
@@ -297,13 +285,13 @@ function MemoryGame(baseUrl, commentary){
             this.moves = 15; //speed up to cheatmode
         } 
     
-        // classList is not actual array, so can't use .includes()
+        // classList is not actually an array, so can't use .includes()
         if (event.currentTarget.id === idOfChoice){
             document.querySelector(`#${idOfChoice}`).classList.add('ballHide');
             //typeof output is actually an object - DOM Token list and not array
             document.querySelector(`#${idOfChoice}`).firstElementChild.classList.remove('hide');
             // click.target.children.classList.remove('hide'); //can't use this else lasts only for duration of click
-            // there should only be 1 img child anyway
+            // there should only be 1 img child 
         }
     }
 
@@ -336,40 +324,28 @@ function MemoryGame(baseUrl, commentary){
               this.wins = +localStorage.getItem('levelsWon')
               const congrats = document.createElement('h1')
               congrats.textContent="Well done! You caught them all!"
-              sequence.replaceChildren(congrats) //wonder if this replicates congrats 6x or just provides 1 bc 1 arg
+              sequence.replaceChildren(congrats) //consider expanding success condition effects
               
               if (this.wins > 3){
                   choose.querySelector('h2').textContent = "Thanks for playing! You have beaten all current levels."
               }else {
                   choose.querySelector('h2').textContent = "Take it to the next Level with a new lineup..."
               }
-             
-       
           }
     }
-
 }
 
-
-
 /**calls */
-//keeping baseURL and commentary outside for easier change of obj application
 
 const pokeGame = new MemoryGame(url, commentary);
 pokeGame.showStartScreen();
 
 pokeGame.checkIfFirst(); //has to precede giveIntro and setRecords, in that order
 pokeGame.giveIntro(); //has to precede set records, which immediately sets .isFirstGame to false
-
-
 pokeGame.setRecords();
 
-
 pokeGame.newGame.addEventListener('click', function(){pokeGame.startGame()}) 
-
-// pokeGame.showInstruct.addEventListener('click', pokeGame.showInstructions)
 pokeGame.showInstruct.addEventListener('click', function(){pokeGame.showInstructions()})
-
 pokeGame.showCreds.addEventListener('click', function(){pokeGame.showCredits()})
 
     
