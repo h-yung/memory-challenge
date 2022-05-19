@@ -10,7 +10,7 @@ A test of one's ability to recreate random sequences of six, made more beautiful
 
 Each new game initiates a call to the PokeAPI to populate both the 16-slot grid board and the random sequence of 6 from the board subset, with listeners for user clicks. Each click also initiates a check to validate the current user choices against the given sequence. Local storage is used to preserve number of wins so that players can continue at their last level in a previous browser session. Specific sequences are not cached. 
 
-Gameplay is an unusually forgiving scenario of two-factor authentication gone wrong, in which the correct string of randomly generated characters fails to reach the user on their second device.
+At its core, gameplay is an unusually forgiving scenario of two-factor authentication gone wrong (where the correct string of randomly generated characters fails to reach the user on their second device).
 
 Difficulty increases with levels, moving from the intentional concealment of the reference sequence to timing out such that players must commit the sequence to memory.
 
