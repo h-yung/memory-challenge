@@ -21,6 +21,7 @@ First-time visitors enjoy a short intro with a talkative Gengar.
 ## Optimizations
 * 70% rewritten based on OOP principles, especially encapsulation.
 * Cleaned up nested .fetch(), resulting in improved performance (by nearly 60s!) but continued to prioritize readability over absolute DRY-ness of the code.
+
 Future refactoring to cover:
 * Isolated questions around closure/best practices in the current code base.
 * Next-level difficulty could include a countdown clock and timed interval for attempts (limited tries seems unrealistic). Successful recreation of the sequence could also be more rewarding and made shareable.
