@@ -129,7 +129,6 @@ function makeLists(baseUrl, length, arrNames, arr){
                                 document.querySelector('.board').classList.remove('noShow')
                                 increaseDifficulty(wins) //will annul some of the above
                             }
-                    
                         })
                         .catch(err => {
                             console.log(`error ${err}`)
